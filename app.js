@@ -170,19 +170,32 @@ function triggerGameOver() {
 }
 
 function resetGame() {
+  // Hide the Game Over UI
   const gameOverScreen = document.getElementById("gameOverScreen");
-  gameOverScreen.style.display = "none"; // hide scorecard
+  gameOverScreen.style.display = "none";
 
+  // Reset main variables
   pipes.length = 0;
   bird.y = height / 2;
   bird.velocity = 0;
   score = 0;
   frames = 0;
-  gameRunning = true;
   gameOverState = false;
+  gameRunning = true;
+
+  // Reset score display
   document.getElementById("score").innerText = "Score: 0";
+
+  // Reset and start background music
   bgMusic.currentTime = 0;
-  bgMusic.play();
+  bgMusic.play().catch(() => {
+    console.log(
+      "Audio autoplay prevented — will play after next user interaction."
+    );
+  });
+
+  // Force immediate frame render
+  requestAnimationFrame(loop);
 }
 
 //custom bg
