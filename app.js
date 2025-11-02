@@ -28,8 +28,14 @@ const hitSound = new Audio("./assets/hit-sound.mp3"); // 👈 sound for collisio
 
 // Game variables
 let frames = 0;
-const gravity = 0.25;
-const jump = 6;
+// Adjust physics based on device
+const isMobile = window.innerWidth < 768;
+
+// Slightly slower physics on mobile
+const gravity = isMobile ? 0.18 : 0.25;
+const jump = isMobile ? 5 : 6;
+const pipeSpeedRatio = isMobile ? 0.0028 : 0.004;
+
 let score = 0;
 let gameRunning = false;
 let gameOverState = false;
@@ -75,7 +81,7 @@ const bird = {
 // Pipes
 const pipes = [];
 const pipeWidthRatio = 0.1;
-const pipeSpeedRatio = 0.004;
+// const pipeSpeedRatio = 0.004;
 
 function getCurrentGap() {
   if (score < 100) return height * 0.3;
@@ -120,7 +126,7 @@ function drawPipes() {
 
 function updatePipes() {
   const pipeSpeed = width * pipeSpeedRatio;
-  if (frames % 100 === 0) createPipe();
+  if (frames % (isMobile ? 120 : 100) === 0) createPipe();
 
   pipes.forEach((pipe, i) => {
     pipe.x -= pipeSpeed;
@@ -201,7 +207,7 @@ function resetGame() {
 //custom bg
 let bgX = 0;
 function drawBackground() {
-  const speed = width * 0.0015; // slow scroll
+  const speed = width * (isMobile ? 0.001 : 0.0015);
   bgX -= speed;
   if (bgX <= -width) bgX = 0;
 

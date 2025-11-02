@@ -40,6 +40,9 @@
         text-shadow: 1px 1px 3px #000;
       }
       canvas { display: none; }
+      #gameOverScreen{
+        max-height: 65vh;
+      }
     }
 
     #gameOverScreen {
